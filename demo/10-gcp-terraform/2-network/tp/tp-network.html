@@ -1,0 +1,63 @@
+
+		<head>
+			<style type="text/css" media="screen">
+				body,html{font-family:var(--markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui, "Ubuntu", "Droid Sans", sans-serif);font-size:var(--markdown-font-size,14px);padding:0 26px;line-height:var(--markdown-line-height,22px);word-wrap:break-word}body{padding-top:1em}h1,h2,h3,h4,h5,h6,ol,p,pre,ul{margin-top:0}h2,h3,h4,h5,h6{font-weight:400;margin-bottom:.2em}img{max-width:100%;max-height:100%}a{text-decoration:none}a:hover{text-decoration:underline}a:focus,input:focus,select:focus,textarea:focus{outline:1px solid -webkit-focus-ring-color;outline-offset:-1px}p{margin-bottom:.7em}ol,ul{margin-bottom:.7em}hr{border:0;height:2px;border-bottom:2px solid}h1{padding-bottom:.3em;line-height:1.2;border-bottom-width:1px;border-bottom-style:solid;font-weight:400}table{border-collapse:collapse}th{text-align:left;border-bottom:1px solid}td,th{padding:5px 10px}table>tbody>tr+tr>td{border-top:1px solid}blockquote{margin:0 7px 0 5px;padding:0 16px 0 10px;border-left-width:5px;border-left-style:solid}code{font-family:var(--vscode-editor-font-family, "SF Mono", Monaco, Menlo, Consolas, "Ubuntu Mono", "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace);font-size:1em;line-height:1.357em}body.wordWrap pre{white-space:pre-wrap}pre.hljs code>div,pre:not(.hljs){padding:16px;border-radius:3px;overflow:auto}pre code{color:var(--vscode-editor-foreground);tab-size:4}
+			</style>
+		</head>
+		<body>
+			<h2 id="tp--bastion-ssh-et-sous-réseaux-gcp-avec-terraform">TP — Bastion SSH et Sous-réseaux GCP avec Terraform</h2>
+<p>Déployer un réseau GCP avec <strong>3 sous-réseaux</strong> et <strong>3 VM</strong> (une par sous-réseau) :</p>
+<ul>
+<li><strong>VM1 (bastion)</strong> : seule VM avec IP publique, accessible en SSH uniquement depuis ton IP.</li>
+<li><strong>VM2 &amp; VM3</strong> : privées, accessibles uniquement depuis VM1 (pas d’IP publique).</li>
+<li><strong>Les 3 VM</strong> doivent pouvoir se ping et se ssh mutuellement en interne.</li>
+</ul>
+<hr>
+<h3 id="consignes">Consignes</h3>
+<ol>
+<li><p><strong>Définis les variables</strong> dans <code>variables.tf</code> (projet, région, zone, IP, clé SSH).</p>
+</li>
+<li><p><strong>Renseigne tes valeurs</strong> dans <code>terraform.tfvars</code> (project, my_ip, ssh_pub_key_path).</p>
+</li>
+<li><p><strong>Déploie le réseau principal</strong>, les <strong>3 sous-réseaux</strong>, et les <strong>3 VMs</strong> (une par sous-réseau).</p>
+</li>
+<li><p><strong>Configure les firewalls</strong> :</p>
+<ul>
+<li>SSH (22) ouvert sur VM1 seulement depuis <strong>ton IP</strong>.</li>
+<li>SSH et ICMP autorisés entre toutes les IPs privées du VPC.</li>
+</ul>
+</li>
+<li><p><strong>Utilise le tag &quot;bastion&quot;</strong> pour VM1 pour la règle SSH.</p>
+</li>
+<li><p><strong>Configure l’accès SSH</strong> via la clé publique indiquée.</p>
+</li>
+<li><p><strong>Affiche les IPs</strong> : publique de VM1, privées de VM2 et VM3 avec des outputs Terraform.</p>
+</li>
+</ol>
+<hr>
+<h3 id="validation">Validation</h3>
+<ul>
+<li><p><strong>Connexion SSH</strong> :
+Depuis ta machine, connecte-toi à VM1 (bastion) :</p>
+<pre><code class="language-bash">ssh debian@&lt;vm1_public_ip&gt;
+</code></pre>
+</li>
+<li><p><strong>Depuis VM1</strong> :
+Ping et SSH vers VM2 et VM3 :</p>
+<pre><code class="language-bash">ping &lt;vm2_private_ip&gt;
+ping &lt;vm3_private_ip&gt;
+ssh debian@&lt;vm2_private_ip&gt;
+ssh debian@&lt;vm3_private_ip&gt;
+</code></pre>
+</li>
+<li><p><strong>SSH direct sur VM2/VM3 depuis Internet</strong> doit être impossible.</p>
+</li>
+</ul>
+<hr>
+<p><strong>Livrables attendus</strong> :</p>
+<ul>
+<li>Les fichiers Terraform propres (<code>main.tf</code>, <code>variables.tf</code>, <code>terraform.tfvars</code>, <code>outputs.tf</code>)</li>
+<li>Un test de connexion SSH via VM1 et ping interne</li>
+</ul>
+
+		</body>
