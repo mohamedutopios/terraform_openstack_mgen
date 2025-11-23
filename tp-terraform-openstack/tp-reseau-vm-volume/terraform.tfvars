@@ -1,0 +1,10 @@
+project_name          = "openstack-terraform"
+external_network_name = "public1"
+ubuntu_18_url         = "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img"
+ubuntu_20_url         = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
+flavor_name           = "m1.small"
+ssh_key_name          = "terraform-key"
+subnet_1_cidr         = "192.168.1.0/24"
+subnet_2_cidr         = "192.168.2.0/24"
+dns_nameservers       = ["8.8.8.8", "8.8.4.4"]
+volume_size           = 10
